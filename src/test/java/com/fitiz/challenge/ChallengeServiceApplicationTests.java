@@ -2,12 +2,15 @@ package com.fitiz.challenge;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class ChallengeServiceApplicationTests {
 
-	@Test
-	void contextLoads() {
+	void contextLoads(ApplicationContext context) {
+		assertThat(context).isNotNull();
 	}
 
 }
