@@ -49,8 +49,13 @@ jobs:
 
       - name: Upload Artifact to s3
         working-directory: ./build/libs
-        run: aws s3 cp *.war s3://${{ env.S3BUCKET }}/
+        run: |
+          ls -al
+          echo aws s3 cp *.war s3://${{ env.S3BUCKET }}/ --recursive
+          aws s3 ls
+          aws s3 cp *.war s3://${{ env.S3BUCKET }}/ --recursive
         
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
