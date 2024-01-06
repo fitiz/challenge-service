@@ -42,10 +42,7 @@ jobs:
 
       - name: Upload Artifact to s3
         working-directory: ./build/libs
-        run: |
-          ls -al
-          echo aws s3 cp *.war s3://${{ env.S3BUCKET }}/ --recursive
-          aws s3 cp *.war s3://${{ env.S3BUCKET }}/ --recursive
+        run: aws s3 cp challenge-service-0.0.1-SNAPSHOT.war s3://${{ env.S3BUCKET }}/
 
   deploy:
     needs: build
