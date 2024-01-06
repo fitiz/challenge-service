@@ -40,21 +40,12 @@ jobs:
         # run: $GITHUB_WORKSPACE/.github/scripts/build.sh
         run: .github/scripts/build.sh
 
-      - name: Debug Information
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "GitHub Workspace: $GITHUB_WORKSPACE"
-          # echo "Application folder directory: $applicationfolder"
-          ls ./build/libs -al
-
       - name: Upload Artifact to s3
         working-directory: ./build/libs
         run: |
           ls -al
           echo aws s3 cp *.war s3://${{ env.S3BUCKET }}/ --recursive
-          aws s3 ls
           aws s3 cp *.war s3://${{ env.S3BUCKET }}/ --recursive
-        
 
   deploy:
     needs: build
