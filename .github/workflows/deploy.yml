@@ -38,7 +38,7 @@ jobs:
         run: |
           echo "Current directory: $(pwd)"
           echo "GitHub Workspace: $GITHUB_WORKSPACE"
-          echo "Application folder directory: ${env.applicationfolder}"
+          # echo "Application folder directory: $applicationfolder"
           ls -al
 
       - name: Build and Package Gradle
