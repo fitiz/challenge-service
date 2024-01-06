@@ -5,8 +5,8 @@ on:
 
 env:
   applicationfolder: challenge-service
-  AWS_REGION: eu-central-1
-  S3BUCKET: codedeploystack-webappdeploymentbucket-hre3kakybzrj
+  AWS_REGION: 'eu-central-1'
+  S3BUCKET: 'codedeploystack-webappdeploymentbucket-hre3kakybzrj'
 
 jobs:
   build:
@@ -34,18 +34,19 @@ jobs:
       - name: chmod
         run: chmod -R +x ./.github
 
+      - name: Build and Package Gradle
+        id: package
+        # working-directory: ${{ env.applicationfolder }}
+        # run: $GITHUB_WORKSPACE/.github/scripts/build.sh
+        run: .github/scripts/build.sh
+
       - name: Debug Information
         run: |
           echo "Current directory: $(pwd)"
           echo "GitHub Workspace: $GITHUB_WORKSPACE"
           # echo "Application folder directory: $applicationfolder"
           ls -al
-
-      - name: Build and Package Gradle
-        id: package
-        # working-directory: ${{ env.applicationfolder }}
-        # run: $GITHUB_WORKSPACE/.github/scripts/build.sh
-        run: .github/scripts/build.sh
+          aws s3 ls
 
       - name: Upload Artifact to s3
         working-directory: ./build/libs
