@@ -45,8 +45,7 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "GitHub Workspace: $GITHUB_WORKSPACE"
           # echo "Application folder directory: $applicationfolder"
-          ls -al
-          aws s3 ls
+          ls ./build/libs -al
 
       - name: Upload Artifact to s3
         working-directory: ./build/libs
