@@ -34,6 +34,13 @@ jobs:
       - name: chmod
         run: chmod -R +x ./.github
 
+      - name: Debug Information
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "GitHub Workspace: $(GITHUB_WORKSPACE)"
+          echo "Application folder directory: $(env.applicationfolder)"
+          ls -al
+
       - name: Build and Package Gradle
         id: package
         working-directory: ${{ env.applicationfolder }}
