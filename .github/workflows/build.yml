@@ -28,7 +28,7 @@ jobs:
         run: ./gradlew test
   sonar:
     needs: tests
-    name: Build and analyze
+    name: SonarCloud analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -75,7 +75,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew bootJar
       - name: Upload JAR
         uses: actions/upload-artifact@v2
         with:
