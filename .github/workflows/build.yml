@@ -2,10 +2,13 @@ name: CI/CD Pipeline
 on:
   #Manually trigger workflow runs
   workflow_dispatch:
-  #Trigger the workflow on push from the main branch
+  #Trigger the workflow on push from any branch
   push:
     branches:
-      - main
+      - '*'
+permissions:
+  id-token: write
+  contents: read
 jobs:
   tests:
     name: Unit tests
@@ -81,3 +84,25 @@ jobs:
         with:
           name: artifact
           path: build/libs/*.jar
+  deploy_to_dev:
+    needs: build
+    name: Deploy-to-dev
+    runs-on: ubuntu-latest
+    environment: development
+    if: github.ref == 'refs/heads/deployment' && github.event_name == 'push'
+    steps:
+      - name: Download JAR
+        uses: actions/download-artifact@v2
+        with:
+          name: artifact
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          use_existing_version_if_available: false
+          application_name: challenge-service
+          environment_name: challenge-service-dev
+          version_label: ${{github.SHA}}
+          region: eu-central-1
+          deployment_package: challenge-service-0.0.1-SNAPSHOT.jar
