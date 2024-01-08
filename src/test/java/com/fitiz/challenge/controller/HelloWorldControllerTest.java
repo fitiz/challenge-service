@@ -14,7 +14,7 @@ class HelloWorldControllerTest {
     HelloWorldController helloWorldController;
 
     @Test
-    void hello() {
+    void helloTest() {
         assertEquals( "Hello world!", helloWorldController.hello());
     }
 }
