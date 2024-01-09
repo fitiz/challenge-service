@@ -106,4 +106,4 @@ jobs:
           version_label: ${{github.SHA}}
           region: eu-central-1
           deployment_package: challenge-service-0.0.1-SNAPSHOT.jar
-          wait_for_environment_recovery: 30
+          wait_for_environment_recovery: 300
