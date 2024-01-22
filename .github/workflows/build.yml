@@ -97,7 +97,7 @@ jobs:
     name: Setup, Build, Publish, and Deploy Dev
     runs-on: ubuntu-latest
     environment: development
-    if: github.ref == 'refs/heads/deployment' && github.event_name == 'push'
+    # if: github.ref == 'refs/heads/deployment' && github.event_name == 'push'
 
     steps:
       - name: Checkout
