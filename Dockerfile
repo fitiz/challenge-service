@@ -1,8 +1,5 @@
 FROM openjdk:17
+COPY build/libs/**-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
 
-VOLUME /tmp
-
-ARG JAR_FILE=build/libs/challenge-service-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} challenge-service.jar
-
-ENTRYPOINT ["java", "-jar","/challenge-service.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
