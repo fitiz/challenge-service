@@ -93,7 +93,7 @@ jobs:
           name: artifact
           path: build/libs/*.jar
   setup-build-publish-deploy-dev:
-    needs: build
+    # needs: build
     name: Setup, Build, Publish, and Deploy Dev
     runs-on: ubuntu-latest
     environment: development
