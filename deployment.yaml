@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-service
+spec:
+  selector:
+    matchLabels:
+      app: challenge-service
+  template:
+    spec:
+      containers:
+        - name: challenge-service
+          image: challenge-service
+          imagePullPolicy: Always
+      dnsPolicy: ClusterFirst
+      serviceAccountName: fitiz-sa
