@@ -1,0 +1,6 @@
+commonLabels:
+  app: challenge-service
+resources:
+  - deployment.yaml
+  - service.yaml
+  - health-check.yaml

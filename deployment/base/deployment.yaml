@@ -6,11 +6,12 @@ spec:
   selector:
     matchLabels:
       app: challenge-service
+  replicas: 2
   template:
     spec:
       containers:
         - name: challenge-service
-          image: challenge-service
+          image: challenge-service-image
           imagePullPolicy: Always
       dnsPolicy: ClusterFirst
       serviceAccountName: fitiz-sa

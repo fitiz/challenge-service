@@ -1,0 +1,12 @@
+apiVersion: cloud.google.com/v1
+kind: ChallengeServiceConfig
+metadata:
+  name: challenge-service
+spec:
+  healthCheck:
+    port: 9000
+    type: HTTP
+    requestPath: /actuator/health
+    checkIntervalSec: 15
+    timeoutSec: 3
+  timeoutSec: 180

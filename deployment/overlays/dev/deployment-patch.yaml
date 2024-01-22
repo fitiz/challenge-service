@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-service
+spec:
+  template:
+    spec:
+      containers:
+        - name: challenge-service
+          resources:
+            requests:
+              memory: "500Mi"
+            limits:
+              memory: "1500Mi"
