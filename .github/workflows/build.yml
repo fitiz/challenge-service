@@ -112,28 +112,36 @@ jobs:
           credentials_json: ${{ secrets.GKE_SA_KEY }}
 
       # helper for authentication
-      - name: Docker configuration
-        run: |-
-          gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$GAR_ZONE-docker.pkg.dev
+      #- name: Docker configuration
+      #  run: |-
+       #   gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$GAR_ZONE-docker.pkg.dev
 
       - name: Configure docker
         run: gcloud auth configure-docker $GAR_ZONE-docker.pkg.dev
 
-      # Get the GKE credentials so we can deploy to the cluster
+      # Get the GKE credentials, so we can deploy to the cluster
       - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v2
         with:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      - name: Copy Dockerfile and resources
+        run: |
+          mkdir tmp
+          cp Dockerfile tmp/
+          cp build/libs/challenge-service-0.0.1-SNAPSHOT.jar tmp/
+
       # Build the Docker image
       - name: Build
-        run: |-
+        run: |
+          cd tmp
           docker build \
             --tag "$GAR_ZONE-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMAGE:$IMAGE_TAG" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             .
+          cd ..
       # Push the Docker image to Google Container Registry
       - name: Publish
         run: |-
