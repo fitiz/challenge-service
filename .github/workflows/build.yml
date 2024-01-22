@@ -92,11 +92,12 @@ jobs:
         with:
           name: artifact
           path: build/libs/*.jar
-  setup-build-publish-deploy:
+  setup-build-publish-deploy-dev:
     needs: build
-    name: Setup, Build, Publish, and Deploy
+    name: Setup, Build, Publish, and Deploy Dev
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
+    if: github.ref == 'refs/heads/deployment' && github.event_name == 'push'
 
     steps:
       - name: Checkout
