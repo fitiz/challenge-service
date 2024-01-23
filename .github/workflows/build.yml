@@ -140,7 +140,7 @@ jobs:
     needs: build
     name: Setup, Build, Publish, and Deploy Stg
     runs-on: ubuntu-latest
-    environment: development
+    environment: staging
     # if: github.ref == 'refs/heads/deployment' && github.event_name == 'push'
 
     steps:
