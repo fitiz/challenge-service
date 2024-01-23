@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/challenge
-        username: admin
-        password: admin
+        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/challenge}
+        username: ${SPRING_DATASOURCE_USERNAME:challenge}
+        password: ${SPRING_DATASOURCE_PASSWORD:fitiz-challenge}
         driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
@@ -11,3 +11,5 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
         open-in-view: false
+server:
+    port: 8080
