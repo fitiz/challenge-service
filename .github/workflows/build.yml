@@ -134,4 +134,4 @@ jobs:
         run: |-
           cd deployment/overlays/dev
           kubectl apply -k .
-          kubectl get pods
+          kubectl get all
