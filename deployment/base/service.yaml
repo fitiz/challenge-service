@@ -3,10 +3,6 @@ kind: Service
 metadata:
   name: challenge-service
 spec:
-  ports:
-    - port: 80
-    - targetPort: 8080
-    - protocol: TCP
   selector:
     app: challenge-service
   type: LoadBalancer
