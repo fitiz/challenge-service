@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-service
+spec:
+  selector:
+    matchLabels:
+      app: challenge-service
+  template:
+    spec:
+      containers:
+        - name: challenge-service
+          image: challenge-service-image
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 30
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0
+          securityContext:
+            runAsNonRoot: true
+      dnsPolicy: ClusterFirst
+      serviceAccountName: fitiz-gke-sa
