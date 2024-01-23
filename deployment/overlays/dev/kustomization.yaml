@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: dev
 
 commonLabels:
-  app: challenge-service
   env: dev
 
 resources:
@@ -14,8 +13,3 @@ resources:
 
 patches:
   - path: deployment-patch.yaml
-    target:
-      kind: Deployment
-      name: challenge-service
-      namespace: dev
-      version: v1
