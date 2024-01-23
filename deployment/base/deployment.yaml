@@ -13,5 +13,21 @@ spec:
         - name: challenge-service
           image: challenge-service-image
           imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 3
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0
+          securityContext:
+            runAsNonRoot: true
       dnsPolicy: ClusterFirst
       serviceAccountName: fitiz-sa

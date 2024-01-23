@@ -133,6 +133,5 @@ jobs:
       - name: Deploy
         run: |-
           cd deployment/overlays/dev
-          kustomize edit set image challenge-service-image=$IMAGE
-          kubectl apply -k .
+          kubectl apply -f .
           kubectl get pods
