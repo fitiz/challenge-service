@@ -1,0 +1,11 @@
+
+commonLabels:
+  app: challenge-service
+  env: dev
+
+resources:
+  - ../../base
+  - config.yaml
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
