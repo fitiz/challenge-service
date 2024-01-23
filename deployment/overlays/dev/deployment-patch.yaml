@@ -6,6 +6,9 @@ metadata:
     app: challenge-service
 spec:
   template:
+    metadata:
+      labels:
+        app: challenge-service
     spec:
       containers:
         - name: cloud-sql-proxy
@@ -13,6 +16,7 @@ spec:
             - /cloud_sql_proxy
             - -instances=fitiz-app:europe-west3:challenge-service-db=tcp:0.0.0.0:5432
         - name: challenge-service
+          image: gcr.io/fitiz-app/challenge-service:latest
           resources:
             requests:
               memory: "500Mi"
