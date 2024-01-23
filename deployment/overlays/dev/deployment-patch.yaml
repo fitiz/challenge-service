@@ -8,6 +8,22 @@ spec:
       containers:
         - name: challenge-service
           image: europe-west10-docker.pkg.dev/fitiz-app/fitiz/challenge-service-image:0.0.1
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: fitiz-challenge-service
+                  key: username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: fitiz-challenge-service
+                  key: password
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: fitiz-challenge-service
+                  key: database
           resources:
             requests:
               memory: "500Mi"

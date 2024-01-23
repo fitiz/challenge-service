@@ -25,22 +25,6 @@ spec:
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 3
-          env:
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: fitiz-challenge-service
-                  key: username
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: fitiz-challenge-service
-                  key: password
-            - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: fitiz-challenge-service
-                  key: database
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0
           securityContext:
