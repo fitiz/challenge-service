@@ -25,8 +25,8 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 3
         - name: cloud-sql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.22.0
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0
           securityContext:
             runAsNonRoot: true
       dnsPolicy: ClusterFirst
-      serviceAccountName: fitiz-sa
+      serviceAccountName: fitiz-gke-sa

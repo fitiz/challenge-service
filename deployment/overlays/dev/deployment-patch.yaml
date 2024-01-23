@@ -8,9 +8,9 @@ spec:
     spec:
       containers:
         - name: cloud-sql-proxy
-          command:
-            - /cloud_sql_proxy
-            - -instances=fitiz-app:europe-west3:challenge-service-db=tcp:0.0.0.0:5432
+          args:
+            - "--port=5432"
+            - "fitiz-app:europe-west3:challenge-service-db=tcp"
         - name: challenge-service
           image: europe-west10-docker.pkg.dev/fitiz-app/fitiz/challenge-service-image:0.0.1
           env:
