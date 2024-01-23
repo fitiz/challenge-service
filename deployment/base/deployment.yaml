@@ -6,7 +6,6 @@ spec:
   selector:
     matchLabels:
       app: challenge-service
-  replicas: 2
   template:
     spec:
       containers:

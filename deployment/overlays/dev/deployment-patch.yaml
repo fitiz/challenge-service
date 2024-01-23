@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: challenge-service
 spec:
+  replicas: 1
   template:
     spec:
       containers:
@@ -13,21 +14,21 @@ spec:
         - name: challenge-service
           image: europe-west10-docker.pkg.dev/fitiz-app/fitiz/challenge-service-image:0.0.1
           env:
-            - name: DB_USER
+            - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: fitiz-challenge-service
-                  key: username
-            - name: DB_PASS
+                  name: challenge-service-infra
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: fitiz-challenge-service
-                  key: password
-            - name: DB_NAME
+                  name: challenge-service-infra
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_DATASOURCE_URL
               valueFrom:
                 secretKeyRef:
-                  name: fitiz-challenge-service
-                  key: database
+                  name: challenge-service-infra
+                  key: SPRING_DATASOURCE_URL
           resources:
             requests:
               memory: "500Mi"
