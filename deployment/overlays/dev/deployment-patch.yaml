@@ -10,7 +10,7 @@ spec:
         - name: cloud-sql-proxy
           args:
             - "--port=5432"
-            - "fitiz-app:europe-west3:challenge-service-db=tcp"
+            - "fitiz-app:europe-west3:challenge-service-db"
         - name: challenge-service
           image: europe-west10-docker.pkg.dev/fitiz-app/fitiz/challenge-service-image:0.0.1
           env:
