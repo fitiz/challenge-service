@@ -14,8 +14,9 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: fitiz-gke
   GKE_ZONE: europe-west10
-  DEPLOYMENT_NAME: challenge-service-gke-deployment
-  IMAGE: challenge-service-image
+  IMAGE_DEV: challenge-service-image-dev
+  IMAGE_STG: challenge-service-image-stg
+  IMAGE_PROD: challenge-service-image-prod
   IMAGE_TAG: 0.0.1
   GAR_ZONE: europe-west10
   GAR_REPO: fitiz
@@ -123,6 +124,46 @@ jobs:
       - name: Build
         run: |
           docker build \
+            --tag "$GAR_ZONE-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMAGE_DEV:$IMAGE_TAG" \
+            --build-arg GITHUB_SHA="$GITHUB_SHA" \
+            --build-arg GITHUB_REF="$GITHUB_REF" \
+            .
+      - name: Publish
+        run: |-
+          docker push "$GAR_ZONE-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMAGE_DEV:$IMAGE_TAG"
+      - name: Deploy
+        run: |-
+          cd deployment/overlays/dev
+          kubectl apply -k .
+          kubectl get all
+  setup-build-publish-deploy-stg:
+    needs: build
+    name: Setup, Build, Publish, and Deploy Stg
+    runs-on: ubuntu-latest
+    environment: development
+    # if: github.ref == 'refs/heads/deployment' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GKE_SA_KEY }}
+      - name: Configure docker
+        run: gcloud auth configure-docker $GAR_ZONE-docker.pkg.dev
+      - name: Set up GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+      - name: Download JAR
+        uses: actions/download-artifact@v3
+        with:
+          name: artifact
+      - name: Build
+        run: |
+          docker build \
             --tag "$GAR_ZONE-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMAGE:$IMAGE_TAG" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
@@ -132,6 +173,6 @@ jobs:
           docker push "$GAR_ZONE-docker.pkg.dev/$PROJECT_ID/$GAR_REPO/$IMAGE:$IMAGE_TAG"
       - name: Deploy
         run: |-
-          cd deployment/overlays/dev
+          cd deployment/overlays/stg
           kubectl apply -k .
           kubectl get all
