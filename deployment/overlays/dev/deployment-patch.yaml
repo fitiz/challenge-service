@@ -2,10 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: challenge-service
+  labels:
+    app: challenge-service
 spec:
   template:
     spec:
       containers:
+        - name: cloud-sql-proxy
+          command:
+            - /cloud_sql_proxy
+            - -instances=fitiz-app:europe-west3:challenge-service-db=tcp:0.0.0.0:5432
         - name: challenge-service
           resources:
             requests:
