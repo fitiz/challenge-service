@@ -6,6 +6,10 @@ spec:
   template:
     spec:
       containers:
+        - name: cloud-sql-proxy
+          command:
+            - /cloud_sql_proxy
+            - fitiz-app:europe-west3:challenge-service-db=tcp --port=5432
         - name: challenge-service
           image: europe-west10-docker.pkg.dev/fitiz-app/fitiz/challenge-service-image:0.0.1
           env:
@@ -29,7 +33,3 @@ spec:
               memory: "500Mi"
             limits:
               memory: "1500Mi"
-        - name: cloud-sql-proxy
-          command:
-            - /cloud_sql_proxy
-            - -instances=fitiz-app:europe-west3:challenge-service-db=tcp:0.0.0.0:5432
