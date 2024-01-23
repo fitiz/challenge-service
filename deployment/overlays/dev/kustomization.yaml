@@ -11,5 +11,10 @@ resources:
   - ../../base
   - config.yaml
 
-patchesStrategicMerge:
-  - deployment-patch.yaml
+patches:
+  - path: deployment-patch.yaml
+    target:
+      kind: Deployment
+      name: challenge-service
+      namespace: dev
+      version: v1
