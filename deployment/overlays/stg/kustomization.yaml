@@ -12,4 +12,4 @@ resources:
   - namespace.yaml
 
 patchesStrategicMerge:
-  - deployment-patch.yaml
+  - deployment.yaml
