@@ -99,7 +99,7 @@ jobs:
     name: Deploy Dev
     runs-on: ubuntu-latest
     environment: development
-    if: github.ref == 'refs/heads/deployment' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/development' && github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
