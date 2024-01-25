@@ -3,7 +3,7 @@ services:
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=challenge'
-      - 'POSTGRES_USER=admin'
-      - 'POSTGRES_PASSWORD=admin'
+      - 'POSTGRES_USER=challenge'
+      - 'POSTGRES_PASSWORD=fitiz-challenge'
     ports:
-      - '5432'
+      - '5432:5432'
