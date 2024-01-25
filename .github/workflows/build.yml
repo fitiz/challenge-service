@@ -18,7 +18,7 @@ env:
   IMAGE_TAG: 0.0.1
   GAR_ZONE: europe-west10
   GAR_REPO: fitiz
-
+  
 jobs:
   tests:
     name: Tests
