@@ -10,6 +10,9 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    implementation group: 'org.springframework', name: 'spring-web', version: '6.1.2'
+    implementation group: 'org.springframework', name: 'spring-context', version: '6.1.2'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
