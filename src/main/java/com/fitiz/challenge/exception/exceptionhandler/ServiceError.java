@@ -1,3 +1,5 @@
+package com.fitiz.challenge.exception.exceptionhandler;
+
 public class ServiceError {
 
     private final String DEFAULT_ERROR_MESSAGE = "Oops, something went wrong...";

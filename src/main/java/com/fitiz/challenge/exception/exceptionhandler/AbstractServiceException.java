@@ -1,3 +1,5 @@
+package com.fitiz.challenge.exception.exceptionhandler;
+
 import org.springframework.http.HttpStatus;
 
 import java.util.List;

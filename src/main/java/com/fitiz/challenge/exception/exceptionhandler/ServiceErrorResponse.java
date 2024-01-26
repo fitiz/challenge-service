@@ -1,3 +1,5 @@
+package com.fitiz.challenge.exception.exceptionhandler;
+
 import java.util.List;
 
 public class ServiceErrorResponse {
