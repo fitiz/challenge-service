@@ -8,6 +8,13 @@ spec:
     spec:
       containers:
         - name: cloud-sql-proxy
+          resources:
+            limits:
+              memory: "600Mi"
+              cpu: "250m"
+            requests:
+              memory: "600Mi"
+              cpu: "250m"
           args:
             - "--port=5432"
             - "fitiz-app:europe-west3:challenge-service-db"
@@ -30,7 +37,9 @@ spec:
                   name: challenge-service-infra
                   key: SPRING_DATASOURCE_URL
           resources:
-            requests:
-              memory: "500Mi"
             limits:
-              memory: "1500Mi"
+              memory: "600Mi"
+              cpu: "250m"
+            requests:
+              memory: "600Mi"
+              cpu: "250m"
