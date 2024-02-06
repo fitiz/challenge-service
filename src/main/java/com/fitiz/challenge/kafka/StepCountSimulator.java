@@ -9,10 +9,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @Slf4j
@@ -50,7 +50,7 @@ public class StepCountSimulator {
     }
 
     private StepCountUpdateData buildStepCountUpdateData() {
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         int participantIdx = random.nextInt(PARTICIPANTS.size());
         return new StepCountUpdateData(
                 PARTICIPANTS_UUID.get(participantIdx),
