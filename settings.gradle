@@ -1,13 +1,1 @@
 rootProject.name = 'challenge-service'
-include 'core:challenge'
-findProject(':core:challenge')?.name = 'challenge'
-include 'core:user'
-findProject(':core:user')?.name = 'user'
-include 'support'
-include 'support:exception-handling'
-findProject(':support:exception-handling')?.name = 'exception-handling'
-include 'support:security'
-findProject(':support:security')?.name = 'security'
-include 'support:utils'
-findProject(':support:utils')?.name = 'utils'
-

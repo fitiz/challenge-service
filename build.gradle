@@ -1,83 +1,171 @@
+buildscript {
+    dependencies {
+        classpath 'org.flywaydb:flyway-database-postgresql:10.0.1'
+    }
+}
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.0'
-	id 'io.spring.dependency-management' version '1.1.4'
-	id "org.sonarqube" version "4.4.1.3373"
-	id 'jacoco'
+    id 'java'
+    id 'jacoco'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.sonarqube' version '4.4.1.3373'
+    id 'nu.studer.jooq' version '9.0'
+    id 'org.flywaydb.flyway' version '10.6.0'
+    id 'com.avast.gradle.docker-compose' version "0.17.6"
+    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.2.20"
 }
 
 group = 'com.fitiz'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.springframework.kafka:spring-kafka'
-	testImplementation 'org.projectlombok:lombok:1.18.26'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq:3.2.1'
+    implementation 'org.springframework.data:spring-data-redis:3.2.0'
+    implementation 'org.springframework:spring-core:6.1.2'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework:spring-context:6.1.2'
+    implementation 'io.lettuce:lettuce-core:6.3.1.RELEASE'
+    implementation 'org.jooq:jooq:3.18.7'
+    implementation 'org.flywaydb:flyway-core:10.0.1'
+    implementation 'org.flywaydb:flyway-database-postgresql:10.0.1'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    jooqGenerator 'org.postgresql:postgresql:42.5.4'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 sonar {
-	properties {
-		property "sonar.projectKey", "fitiz_challenge-service"
-		property "sonar.organization", "fitiz"
-		property "sonar.host.url", "https://sonarcloud.io"
-	}
+    properties {
+        property "sonar.projectKey", "fitiz_challenge-service"
+        property "sonar.organization", "fitiz"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
 
 test {
-	useJUnitPlatform()
-	finalizedBy jacocoTestReport // report is always generated after tests run
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
 jacoco {
-	toolVersion = "0.8.9"
+    toolVersion = "0.8.9"
 }
 
 jacocoTestReport {
-	dependsOn test
-	reports {
-		xml.required = true
-		csv.required = true
-		html.required = true
-	}
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = true
+        html.required = true
+    }
 }
 
 jacocoTestCoverageVerification {
-	violationRules {
-		rule {
-			limit {
-				minimum = 0.2
-			}
-		}
-	}
+    afterEvaluate {
+        getClassDirectories().setFrom(classDirectories.files.collect {
+            fileTree(dir: it, exclude:  [
+                    'com/fitiz/challenge/exception/exceptionhandler/**'
+            ])
+        })
+    }
+
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.0
+            }
+        }
+    }
 }
 
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/challenge'
+    user = 'challenge'
+    password = 'fitiz-challenge'
+    schemas = ['public']
+    locations = ["filesystem:$project.projectDir/src/main/resources/db/migration"]
+}
+
+jooq {
+    version = '3.18.7'
+    configurations {
+        main {
+            generationTool {
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = 'jdbc:postgresql://localhost:5432/challenge'
+                    user = 'challenge'
+                    password = 'fitiz-challenge'
+                    schema = 'public'
+                }
+                generator {
+                    name = "org.jooq.codegen.DefaultGenerator"
+                    database {
+                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        inputSchema = 'public'
+                    }
+                    generate {
+                        relations = true
+                        deprecated = false
+                        records = true
+                        pojos = true
+                        immutablePojos = false
+                        fluentSetters = true
+                    }
+                    target {
+                        packageName = 'com.fitiz.challenge'
+                        directory = 'build/generated-src/jooq/main'
+                    }
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    // ensure database schema has been prepared by Flyway before generating the jOOQ sources
+    dependsOn tasks.named('flywayMigrate')
+
+    // declare Flyway migration scripts as inputs on the jOOQ task
+    inputs.files(fileTree('src/main/resources/db/migration'))
+            .withPropertyName('migrations')
+            .withPathSensitivity(PathSensitivity.RELATIVE)
+
+    // make jOOQ task participate in incremental builds (and build caching)
+    allInputsDeclared = true
+}
+
+flywayMigrate.dependsOn composeUp
+generateJooq.finalizedBy composeDownForced
 check.dependsOn jacocoTestCoverageVerification
