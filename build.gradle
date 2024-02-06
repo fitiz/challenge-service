@@ -13,6 +13,7 @@ plugins {
     id 'nu.studer.jooq' version '9.0'
     id 'org.flywaydb.flyway' version '10.6.0'
     id 'com.avast.gradle.docker-compose' version "0.17.6"
+    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.2.20"
 }
 
 group = 'com.fitiz'
@@ -41,13 +42,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-jooq:3.2.1'
+    implementation 'org.springframework.data:spring-data-redis:3.2.0'
     implementation 'org.springframework:spring-core:6.1.2'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework:spring-context:6.1.2'
+    implementation 'io.lettuce:lettuce-core:6.3.1.RELEASE'
     implementation 'org.jooq:jooq:3.18.7'
     implementation 'org.flywaydb:flyway-core:10.0.1'
     implementation 'org.flywaydb:flyway-database-postgresql:10.0.1'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
     jooqGenerator 'org.postgresql:postgresql:42.5.4'
-    implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'org.springframework:spring-context:6.1.2'
     testImplementation 'org.projectlombok:lombok:1.18.26'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
@@ -133,6 +138,7 @@ jooq {
                         relations = true
                         deprecated = false
                         records = true
+                        pojos = true
                         immutablePojos = false
                         fluentSetters = true
                     }

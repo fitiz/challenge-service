@@ -1,15 +1,40 @@
 spring:
+    lifecycle:
+        timeout-per-shutdown-phase: 10s
     datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/challenge}
-        username: ${SPRING_DATASOURCE_USERNAME:challenge}
-        password: ${SPRING_DATASOURCE_PASSWORD:fitiz-challenge}
-        driver-class-name: org.postgresql.Driver
+        url: ${prop.spring.datasource.url}
+        username: ${prop.spring.datasource.username}
+        password: ${prop.spring.datasource.password}
+        driver-class-name: ${prop.spring.datasource.driver-class-name}
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: ${prop.spring.jpa.hibernate.ddl-auto}
         properties:
             hibernate:
-                dialect: org.hibernate.dialect.PostgreSQLDialect
-        open-in-view: false
+                dialect: ${prop.spring.jpa.properties.hibernate.dialect}
+        open-in-view: ${prop.spring.jpa.open-in-view}
+    data:
+        redis:
+            host: ${prop.spring.data.redis.host}
+            port: ${prop.spring.data.redis.port}
+    kafka:
+        consumer:
+            auto-offset-reset: latest
+            bootstrap-servers: localhost:29092
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            properties:
+                spring.json.trusted.packages: com.fitiz.challenge.model
+        producer:
+            acks: all
+            bootstrap-servers: localhost:29092
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            properties:
+                spring.json.trusted.packages: com.fitiz.challenge.model
 server:
-    port: 8080
+    port: ${prop.server.port}
+    shutdown: graceful
+logging:
+    level:
+        com.com.fitiz: info
