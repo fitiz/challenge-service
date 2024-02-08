@@ -91,14 +91,6 @@ jacocoTestReport {
 }
 
 jacocoTestCoverageVerification {
-    afterEvaluate {
-        getClassDirectories().setFrom(classDirectories.files.collect {
-            fileTree(dir: it, exclude:  [
-                    'com/fitiz/challenge/exception/exceptionhandler/**'
-            ])
-        })
-    }
-
     violationRules {
         rule {
             limit {

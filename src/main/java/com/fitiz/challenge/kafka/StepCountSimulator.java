@@ -37,8 +37,8 @@ public class StepCountSimulator {
 
     @Scheduled(fixedRate = 1000)
     public void randomStepCounts() {
-        int batchSize = 1;
-        for (int i = 0; i < 2; i++) {
+        int numOfParticipants = 1;
+        for (int i = 0; i < numOfParticipants; i++) {
             publishStepCount();
         }
     }
@@ -56,7 +56,7 @@ public class StepCountSimulator {
                 PARTICIPANTS_UUID.get(participantIdx),
                 PARTICIPANTS.get(participantIdx),
                 CHALLENGE_ID,
-                10,
+                29,
                 LocalDateTime.now());
     }
 

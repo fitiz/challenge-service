@@ -21,10 +21,6 @@ public class LeaderboardRedisRepository {
     return leaderboardRedisProvider.addToLeaderboard(leaderboardId, username).intValue() != 0;
   }
 
-  public Integer updateSteps(String leaderboardId, Integer steps, String username) {
-    return leaderboardRedisProvider.updateSteps(leaderboardId, steps, username).intValue();
-  }
-
   public List<LeaderboardData> getLeaderboard(String leaderboardId) {
     List<ScoredValue<String>> leaderboard = leaderboardRedisProvider.getLeaderboard(leaderboardId);
     return leaderboard.stream()
