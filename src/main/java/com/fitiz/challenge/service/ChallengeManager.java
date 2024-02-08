@@ -5,6 +5,7 @@ import com.fitiz.challenge.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,9 +36,9 @@ public class ChallengeManager {
         return challengeService.createChallenge(name, locationId);
     }
 
-    public List<LeaderboardInfo> participateInChallenge(UUID userId) {
+    public LeaderboardInfo participateInChallenge(UUID challengeId, UUID userId) {
         ParticipantInfo participant = participantService.getParticipantByUserId(userId);
-        Optional<ChallengeInfo> challengeInfoOptional = challengeService.getChallengeByLocationId(participant.getLocationId());
+        Optional<ChallengeInfo> challengeInfoOptional = challengeService.getChallengeById(challengeId);
         if (challengeInfoOptional.isEmpty()) {
             throw new ChallengeNotFoundException();
         }
@@ -71,9 +72,9 @@ public class ChallengeManager {
         }
     }
 
-    public ParticipantProgress claimReward(UUID userId) {
+    public ParticipantProgress claimReward(UUID challengeID, UUID userId) {
         ParticipantInfo participant = participantService.getParticipantByUserId(userId);
-        Optional<ChallengeInfo> challengeInfoOptional = challengeService.getChallengeByLocationId(participant.getLocationId());
+        Optional<ChallengeInfo> challengeInfoOptional = challengeService.getChallengeById(challengeID);
         if (challengeInfoOptional.isEmpty()) {
             throw new ChallengeNotFoundException();
         }
@@ -103,7 +104,7 @@ public class ChallengeManager {
         }
     }
 
-    public List<LeaderboardInfo> getLeaderboard(UUID userId) {
+    public LeaderboardInfo getLeaderboard(UUID userId) {
         ParticipantInfo participant = participantService.getParticipantByUserId(userId);
         if (participant.getChallengeId() == null) {
             throw new ParticipantChallengeIdNotFoundException();
@@ -124,7 +125,11 @@ public class ChallengeManager {
         return challengeService.getRank(leaderboardId, participant.getUsername());
     }
 
-    public List<LeaderboardInfo> getLeaderboardByLocationId(Integer locationId) {
+    public Optional<ChallengeInfo> getChallengeByLocationId(Integer locationId) {
+        return challengeService.getChallengeByLocationId(locationId);
+    }
+
+    public LeaderboardInfo getLeaderboardByLocationId(Integer locationId) {
         ChallengeInfo challengeInfo = challengeService.getChallengeByLocationId(locationId)
                 .orElseThrow(ChallengeNotFoundException::new);
         String leaderboardId = challengeService.getChallengeLeaderboardId(challengeInfo.getId());
@@ -132,9 +137,18 @@ public class ChallengeManager {
         return toLeaderboardInfo(leaderboardDataList);
     }
 
-    private static List<LeaderboardInfo> toLeaderboardInfo(List<LeaderboardData> leaderboard) {
-        return leaderboard.stream().map(leaderboardData ->
-                new LeaderboardInfo(leaderboardData.username(), leaderboardData.steps())).toList();
+    private LeaderboardInfo toLeaderboardInfo(List<LeaderboardData> leaderboard) {
+        return new LeaderboardInfo(assignRanks(leaderboard));
+    }
+
+    private List<LeaderboardUser> assignRanks(List<LeaderboardData> leaderboardDataList) {
+        List<LeaderboardUser> leaderboardUsers = new ArrayList<>();
+        int rank = 1;
+        for (LeaderboardData leaderboardData : leaderboardDataList) {
+            leaderboardUsers.add(
+                    new LeaderboardUser(leaderboardData.username(), rank++, leaderboardData.steps()));
+        }
+        return leaderboardUsers;
     }
 
 

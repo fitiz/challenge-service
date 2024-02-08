@@ -42,9 +42,8 @@ public class LeaderboardRedisProvider {
   }
 
   public List<ScoredValue<String>> getLeaderboard(String key) {
-    return connection.sync().zrevrangebyscoreWithScores(key, Range.create(0, 9));
+    return connection.sync().zrevrangeWithScores(key, 0, 9);
   }
-
 
   public Long getRank(String key, String username) {
     return connection.sync().zrevrank(key, username);

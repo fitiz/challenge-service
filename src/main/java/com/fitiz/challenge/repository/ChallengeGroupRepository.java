@@ -22,6 +22,10 @@ public class ChallengeGroupRepository {
         return challengeGroupProvider.removeFromChallengeSet(challengeId, username);
     }
 
+    public Integer getChallengeSetSize(UUID challengeId) {
+        return challengeGroupProvider.getChallengeSetSize(challengeId);
+    }
+
     public String getChallengeId(UUID challengeId) {
         String groupId = challengeGroupProvider.getUnusedGroupId(challengeId);
         if (groupId == null) {

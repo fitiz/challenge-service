@@ -83,6 +83,11 @@ public class ChallengeService {
         return challengeGroupRepository.removeParticipantFromChallengeSet(challengeId, username);
     }
 
+    public Integer getChallengeSetSize(UUID challengeId) {
+        return challengeGroupRepository.getChallengeSetSize(challengeId);
+    }
+
+
     public String getChallengeLeaderboardId(UUID challengeId) {
         return challengeGroupRepository.getChallengeId(challengeId);
     }

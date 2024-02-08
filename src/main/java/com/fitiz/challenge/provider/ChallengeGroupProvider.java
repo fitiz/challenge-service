@@ -27,9 +27,15 @@ public class ChallengeGroupProvider {
         return connection.sync().sadd(key, username) == 1;
     }
 
+
     public Boolean removeFromChallengeSet(UUID challengeId, String username) {
         String key = getRedisChallengeParticipantsKey(challengeId);
         return connection.sync().srem(key, username) == 1;
+    }
+
+    public Integer getChallengeSetSize(UUID challengeId) {
+        String key = getRedisChallengeParticipantsKey(challengeId);
+        return connection.sync().scard(key).intValue();
     }
 
     public String getUnusedGroupId(UUID challengeId) {
