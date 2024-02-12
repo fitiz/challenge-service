@@ -1,6 +1,23 @@
 # Fitiz - Challenge Service
 
-This project aims to enhance user engagement and competitiveness by implementing location-based challenges and real-time leaderboards, encouraging users to actively participate and track their progress within these challenges.
+This project aims to enhance user engagement and competitiveness by implementing location-based challenges and real-time leaderboards, encouraging users to participate and track their progress within these challenges actively.
+
+![fitiz-app - Page 1 (2)](https://github.com/fitiz/challenge-service/assets/23321849/b2c2e151-6d3e-400c-9a3f-2b2e82cf8d20)
+
+#### 
+  - Publishes step-count topic to Kafka (by simulator just for now, there will be a separate endpoint for the producer)
+  - Uses Flyway + jOOQ
+  - Create challenge:
+     - ```POST /api/challenges```
+  - Participate in challenge:
+     - ```POST /api/challenges/{challengeId}/participants/{userId}```
+  - Claim challenge reward:
+     - ```POST /api/challenges/{challengeId}/participants/{userId}/rewards```
+
+_Please see the [ChallengeManager](https://github.com/fitiz/challenge-service/blob/main/src/main/java/com/fitiz/challenge/service/ChallengeManager.java) , [LeaderboardRedisProvider](https://github.com/fitiz/challenge-service/blob/main/src/main/java/com/fitiz/challenge/provider/LeaderboardRedisProvider.java) detailed implementation_
+
+*This service was later separated into challenge-service and leaderboard-websocket-service. Some codes are still here even though they were used in the leaderboard-websocket-service and other consumer services.
+
 
 ## Getting Started
 
