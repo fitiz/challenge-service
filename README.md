@@ -18,6 +18,11 @@ _Please see the [ChallengeManager](https://github.com/fitiz/challenge-service/bl
 
 *This service was later separated into challenge-service and leaderboard-websocket-service. Some codes are still here even though they were used in the leaderboard-websocket-service and other consumer services.
 
+#### UI
+
+- Live Mode, users can initiate a WebSocket (STOMP) connection and subscribe to the challenge-specific channel
+
+<img width="458" alt="Screenshot 2024-02-12 at 5 13 33 PM" src="https://github.com/fitiz/challenge-service/assets/23321849/e82216e4-e8cf-453d-8163-8ee5bc064bc7">
 
 ## Getting Started
 
